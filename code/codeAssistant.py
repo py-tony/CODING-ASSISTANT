@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import messagebox
 
 def helloCallBack(entry):
     label["text"] = f"This  is {entry}"
@@ -10,9 +11,11 @@ HEIGHT = 500
 WIDTH = 800
 
 root = tk.Tk(className=' CODING ASSISTANT')
-
+root.title("CODING ASSISTANT")
 canvas = tk.Canvas(root, height=HEIGHT, width=WIDTH)
 canvas.pack()
+
+
 
 bg_img = tk.PhotoImage(file="bg.png")
 background = tk.Label(root, image=bg_img)
