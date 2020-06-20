@@ -1,6 +1,7 @@
-from tkinter import *
+import tkinter as tk
+from validate_email import validate_email
 
-root = Tk()
+root = tk.Tk()
 
 def _delete_window():
     print( "delete_window")
@@ -11,10 +12,17 @@ def _delete_window():
 
 
 
-root.protocol("WM_DELETE_WINDOW", _delete_window)
-# root.bind("<Destroy>", _destroy)
-
-button = Button(root, text="Destroy", command=root.destroy)
+button = tk.Button(root, text="Destroy", command=root.destroy)
 button.pack()
 
-mainloop()
+
+try:
+    a = validate_email("tony@oceansofty.com", verify=True)
+except Exception:
+    tk.Label(root, text="this is an internet issue").pack()
+    
+
+
+root.mainloop()
+
+

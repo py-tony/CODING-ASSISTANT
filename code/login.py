@@ -6,12 +6,15 @@ import random
 import time
 import datetime
 
+from db import Database as db
+
 title = "CODING ASSISTANT"
 
+screen = None
 register_screen = None
 email_entry = None
 user_entry = None
-pass_entry =None
+pass_entry = None
 screen = None
 email = None
 username = None
@@ -26,17 +29,17 @@ def error_button():
 
 
 def error_screen(reason, msg):
-    
+    print("error_screen working")
     resp = tk.messagebox.askretrycancel(reason, msg)
 
     print(resp)
     
     if resp:
         register_screen.destroy()
-        screen.destroy()
-        main()
+        return register()
     else:
-        pass
+        _click_cancel()
+        
     
    
 
@@ -49,26 +52,32 @@ def check_empty(entry_var) :
         print(' input required') 
 
 def error_handler(info, msg, reason):
-
-
-    a = True
-    while a:
-        if reason == "Username" and len(list(info)) < 2:
-            print(len(list(info)), info)            
-
-            a = False
+    conn = None
+    try:
+        conn = validate_email(info, verify=True) 
+        
+    except Exception:
+        tk.Label(register_screen, text="No Internet connection detected \n please make sure you're connected to internet \nfor registration", bg="black", fg="red").pack()
+    
+    error = True
+    while error:
+        if reason == "Invalid Username" and len(list(info)) < 2:
+            error = False
             error_screen(reason, msg)
-            
-        elif reason == "Email" and validate_email(info, verify=True) == False:
-            a = False
+
+        elif reason == "Invalid Email" and conn == False:
+            error = False
+            error_screen(reason, msg)
+        elif reason == "Invalid Password" and len(list(info)) < 8:
+            error = False
             error_screen(reason, msg)
         else:
-            break
+            return True
 
 
 
 
-def register_user():
+def register_user(*args):
     
     user_info = username.get()
     email_info = email.get()
@@ -78,26 +87,34 @@ def register_user():
 
     emaiL_error_msg = "Oooops Invalid email or email address already taken \nPlease try with a valid Email address"
     username_error_msg = "Ooops already taken or invalid Username \nPlease try using a valid Username"
+    pass_error_msg = "Invalid Password Please enter a secure password lenght at least 8"
     
-    for info,msg,reason in zip([user_info, email_info], [username_error_msg, emaiL_error_msg], ["Username", "Email"]):
+    valid = False
+    for info,msg,reason in zip([user_info, email_info, pass_info], [username_error_msg, emaiL_error_msg, pass_error_msg], ["Invalid Username", "Invalid Email", "Invalid Password"]):
 
-        error_handler(info, msg, reason)
+        valid = error_handler(info, msg, reason)
+        if valid:
+            pass
+        else:
+            break
 
-
-    with open("users.txt", "a+") as f:
+    if valid:
+        data = db("code_assistant.db")
         
-        f.write(user_info+", "+email_info+", "+pass_info+"\n")
+        result = data.insert(user_info, email_info, pass_info)
+        if result:
+            tk.messagebox.showerror("User Credential Exist", result)
+            register_screen.destroy()
+            return register()
 
-    user_entry.delete(0, tk.END)
-    email_entry.delete(0,tk.END)
-    pass_entry.delete(0, tk.END)
-    
-    tk.messagebox.showinfo("CODE ASSISTANT", f"Successfully registered {user_info} \nplease check your emails")
+            
+        user_entry.delete(0, tk.END)
+        email_entry.delete(0,tk.END)
+        pass_entry.delete(0, tk.END)
+        register_screen.destroy()
+        tk.messagebox.showinfo("CODE ASSISTANT", f"Successfully registered {user_info} please check your emails to confirm your registration (you might have to check your spam box as well if email not received)")
 
-    register_screen.destroy()
 
-
-    
 
 def register(*args):
     global email_entry
@@ -108,51 +125,53 @@ def register(*args):
     global username 
     global password 
 
-    
+    try:
+        register_screen.destroy()
+    except:
+        pass
 
     register_screen = tk.Toplevel(screen)
     register_screen.title(title)
     register_screen.resizable(False,False)
     register_screen.geometry("320x250")
-    screen.protocol("WM_DELETE_WINDOW", _click_cancel)
-    screen.bind("<Return>", register)
+    register_screen.attributes('-topmost', True)
+    register_screen.configure(background="black",  pady=10)
+    
     
     
     username = tk.StringVar()
     email = tk.StringVar()
     password = tk.StringVar()
 
-    tk.Label(register_screen, text = "Please enter details below", width = 300).pack()
-    tk.Label(register_screen, text="").pack()
-    tk.Label(register_screen, text="Username").pack()
-    tk.Label(register_screen, text="")
-    user_entry = tk.Entry(register_screen, textvariable = username, width=35)
+    tk.Label(register_screen, text = "Please enter details below", width = 300, bg="grey").pack()
+    tk.Label(register_screen, text="", bg="black", fg="green").pack()
+    tk.Label(register_screen, text="Username", bg="black", fg="green").pack()
+    tk.Label(register_screen, text="", bg="black", fg="green")
+    user_entry = tk.Entry(register_screen, textvariable = username, width=35, highlightbackground="green", highlightthickness=2)
     user_entry.pack()
 
-    tk.Label(register_screen, text="Email").pack()
-    tk.Label(register_screen, text="")
-    email_entry = tk.Entry(register_screen, textvariable = email, width=35)
+    tk.Label(register_screen, text="Email", bg="black", fg="green").pack()
+    tk.Label(register_screen, text="", bg="black", fg="green")
+    email_entry = tk.Entry(register_screen, textvariable = email, width=35, highlightbackground="green", highlightthickness=2)
     email_entry.pack()
 
-    tk.Label(register_screen, text="")
-    tk.Label(register_screen, text="Password").pack()
-    tk.Label(register_screen, text="")
-    pass_entry = tk.Entry(register_screen, width=35, textvariable = password, show="*")
+    tk.Label(register_screen, text="", bg="black", fg="green")
+    tk.Label(register_screen, text="Password", bg="black", fg="green").pack()
+    tk.Label(register_screen, text="", bg="black", fg="green")
+    pass_entry = tk.Entry(register_screen, width=35, textvariable = password, show="*", highlightbackground="green", highlightthickness=2)
     pass_entry.pack()
-    tk.Label(register_screen, text="").pack()
-    tk.Button(register_screen, text = "register", command = register_user, width = 10).pack()
-    
-    
+    tk.Label(register_screen, text="", bg="black", fg="green").pack()
+    tk.Button(register_screen, text = "Register", command = register_user, width = 10, bg="black", fg="green", activebackground="grey").pack()
 
 
-def register_screen():
+def login():
     print("logging in")
 
 def _click_cancel():
-    print("hi there")
-    ask = messagebox.askquestion("EXIT CODE ASSISTANT", "Unsaved data maybe lost\nAre you sure you want to exit?")
-
-    if ask:
+    
+    ask = messagebox.askquestion("EXIT CODE ASSISTANT", "Unsaved data maybe lost\nExit anyway?")
+    print(ask)
+    if ask ==  "yes":
         try:
         
             screen.destroy()
@@ -166,7 +185,7 @@ def _click_cancel():
 
         exit()
     else:
-        return screen
+        return 
 
 
 def next_widget(event):
@@ -182,8 +201,8 @@ def main():
     screen.title(" CODE ASSISTANT")
     screen.protocol("WM_DELETE_WINDOW", _click_cancel)
 
-    bg_img = tk.PhotoImage(file="bg.png")
-    screen.configure(background=bg_img,  pady=2)
+    bg_img = tk.PhotoImage(file=r"C:\Users\byamu\OneDrive\Desktop\codeAssitant\code\bg.gif")
+    screen.configure(background="black",  pady=10)
     screen.bind("<Return>", register)
     screen.bind_class("Up", "<Down>", next_widget)
 
@@ -194,12 +213,13 @@ def main():
 
     login_btn = tk.Button(text = "Login", width = 30, height= 2)
     login_btn.pack()
-    login_btn.focus()
+    login_btn
 
     tk.Label(text = "", bg="black").pack()
 
     reg_btn = tk.Button(text = "Register", command = register, width = 30, height= 2)
     reg_btn.pack()
+    reg_btn.focus()
 
     screen.mainloop()
 

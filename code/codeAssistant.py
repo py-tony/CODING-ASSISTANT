@@ -17,7 +17,7 @@ canvas.pack()
 
 
 
-bg_img = tk.PhotoImage(file="bg.png")
+bg_img = tk.PhotoImage(file=r"C:\Users\byamu\OneDrive\Desktop\codeAssitant\code\bg.gif")
 background = tk.Label(root, image=bg_img)
 background.place(relheight=1, relwidth=1)
 

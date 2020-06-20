@@ -1,1 +1,1 @@
-" CODE ASSISTANT"
+Label(root, "internet is not good buddy").pack()

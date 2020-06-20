@@ -27,6 +27,7 @@ class Database:
             self.cur.execute("INSERT INTO users VALUES (NULL, ?, ?, ?, ?)",
                          (username, email, password, datetime.datetime.now()))
             self.conn.commit()
+            return
         except Exception as e:
             return e, "already exist please use valid credentials"
 
