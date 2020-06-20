@@ -1,3 +1,5 @@
-a = "tony"
+from validate_email import validate_email
 
-print(len(list(a)))
+a = "byamungutony@gmail.com"
+
+print(validate_email(a, verify= True))

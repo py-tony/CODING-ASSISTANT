@@ -1,4 +1,5 @@
 import sqlite3
+import datetime
 
 
 class Database:
@@ -8,22 +9,26 @@ class Database:
         self.cur.execute(
             """CREATE TABLE IF NOT EXISTS users (
                 user_id INTEGER PRIMARY KEY,
-                 username text,
-                  email text,
-                  password text
-                  )""")
+                username text unique,
+                email text unique,
+                password text,
+                date_and_time text
+                )""")
 
         self.conn.commit()
 
     def fetch(self):
-        self.cur.execute("SELECT * FROM parts")
+        self.cur.execute("SELECT * FROM users")
         rows = self.cur.fetchall()
         return rows
 
     def insert(self, username, email, password):
-        self.cur.execute("INSERT INTO users VALUES (NULL, ?, ?, ?)",
-                         (username, email, password))
-        self.conn.commit()
+        try:
+            self.cur.execute("INSERT INTO users VALUES (NULL, ?, ?, ?, ?)",
+                         (username, email, password, datetime.datetime.now()))
+            self.conn.commit()
+        except Exception as e:
+            return e, "already exist please use valid credentials"
 
     def remove_by_name(self, username):
         self.cur.execute("DELETE FROM users WHERE username=?", (username,))
@@ -39,10 +44,7 @@ class Database:
 
 
 db = Database('code_assistant.db')
-db.insert("4GB DDR4 Ram", "John Doe", "Microcenter", "160")
-db.insert("Asus Mobo", "Mike Henry", "Microcenter", "360")
-db.insert("500w PSU", "Karen Johnson", "Newegg", "80")
-db.insert("2GB DDR4 Ram", "Karen Johnson", "Newegg", "70")
-db.insert("24 inch Samsung Monitor", "Sam Smith", "Best Buy", "180")
-db.insert("NVIDIA RTX 2080", "Albert Kingston", "Newegg", "679")
-db.insert("600w Corsair PSU", "Karen Johnson", "Newegg", "130")
+
+insert_result = db.insert("test", "test@pyton", "12345")
+
+print(db.fetch())

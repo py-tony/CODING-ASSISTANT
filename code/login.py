@@ -1,34 +1,67 @@
 import tkinter as tk
+from validate_email import validate_email
+
+global login
+global email_entry
+global user_entry
+global pass_entry
+
+global email
+global username
+global password
+
+
 
 
 def error_button():
     
     error.destroy()
 
+
+def error_screen(msg):
+    global error
+    error = tk.Tk()
+    error.title("ERROR")
+    tk.Label(text="")
+    tk.Label(error, text=msg, fg = "red").pack()
+    tk.Button(error, text = "OK", command = error_button, width = 10, default="active").pack()
+    login.destroy()
+    return register()
+
+def check_empty() :
+     if entry.get():
+         pass     #your function where you want to jump
+     else:
+        print(' input required') 
+
+def error_handler(info, msg, reason):
+    
+    while True:
+        if reason == "username" and len(list(info)) < 2:
+            print(len(list(info)), info)            
+
+            error_screen(msg)
+
+        elif reason == "email" and validate_email(info, verify=True) == False:
+            error_screen(msg)
+
+
+        else:
+            break
+
+
+
+
 def register_user():
+    
     user_info = username.get()
     email_info = email.get()
     pass_info = password.get()
 
-    global error
-
     with open("users.txt", "a+") as f:
         data = f.read()
 
-    while True:
-        if len(list(user_info)) < 2:
-            print(len(list(user_info)), user_info)            
-
-            error = tk.Tk()
-            error.title("ERROR")
-            tk.Label(text="")
-            tk.Label(error, text="name characters cannot be less than 2", fg = "red").pack()
-            tk.Button(error, text = "OK", command = error_button, width = 10, default="active").pack()
-            login.destroy()
-            return register()
-
-        else:
-            break
+    
     
     data.write(user_info+", "+email_info+", "+pass_info+"\n")
 
@@ -41,21 +74,14 @@ def register_user():
     login.destroy()
 
 def register():
-    global login
+    
 
     login = tk.Toplevel(screen)
     login.title("Login")
     login.resizable(False,False)
     login.geometry("320x250")
     
-    global email_entry
-    global user_entry
-    global pass_entry
-
-    global email
-    global username
-    global password
-
+    
     username = tk.StringVar()
     email = tk.StringVar()
     password = tk.StringVar()
@@ -94,7 +120,7 @@ def main():
     screen.title(" CODE ASSISTANT")
     screen.protocol("VM_DELETE_WINDOW", click_cancel)
     screen.bind("<Return>". click_ok)
-    
+
 
 
     tk.Label(text = "CODE ASSISTANT Version 0.1", width=100, height= 2, bg =  "grey", font = ("Calibri", 14)).pack()
