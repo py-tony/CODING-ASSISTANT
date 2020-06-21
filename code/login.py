@@ -1,11 +1,13 @@
 import tkinter as tk
+from urllib.request import urlopen
 from validate_email import validate_email
 from tkinter import messagebox
 from tkinter import ttk
 import random
 import time
 import datetime
-
+import yagmail
+#local classes==============
 from db import Database as db
 import codeAssistant as ca
 
@@ -23,6 +25,48 @@ email = None
 username = None
 password = None
 error  = None
+user_info = None
+pass_info = None
+email_info = None
+
+
+
+
+def confirmation_email(receiver):
+
+    sender = "codeassistantconfirm@gmail.com"      
+    receiver = "tony@oceansofty.com"
+    password = "0990525794"
+    
+
+    msg = f"""
+    Subject: CODE ASSISTANT CONFIRMATION EMAIL
+
+    Username: {user_info}
+    Password: {pass_info}
+    Email: {email_info}
+    
+    Please click the link below to confirm your email
+    https://py-tony.netlify.app/emailConfirm/
+
+
+
+
+    If you do not recognize this please report at
+    https://py-tony.netlify.app/repportSpam/
+
+
+    """
+
+    print("sending")
+    try:
+        
+        
+        yag = yagmail.SMTP(sender, password)
+        yag.send(receiver, "CODE ASSISTANT CONFIRMATION", msg)
+        print("success")
+    except Exception as e:
+        print(e)
 
 
 
@@ -32,11 +76,9 @@ def error_button():
 
 
 def error_screen(reason, msg):
-    print("error_screen working")
+    
     resp = tk.messagebox.askretrycancel(reason, msg)
 
-    print(resp)
-    
     if resp:
         register_screen.destroy()
         return register()
@@ -54,26 +96,37 @@ def check_empty(entry_var) :
      else:
         print(' input required') 
 
-def error_handler(info, msg, reason):
-    conn = None
-    try:
-        conn = validate_email(info, verify=True) 
-        
-    except Exception:
-        tk.Label(register_screen, text="No Internet connection detected \n please make sure you're connected to internet \nfor registration", bg="black", fg="red").pack()
+def connection_test():
     
+    try :
+        stri = "https://www.google.co.in"
+        urlopen(stri)
+        return [True, "Internet Connection detected"]
+    except Exception as e:
+        return [False, "No internet connection detected\n make sure you have a working internet"]
+
+def error_handler(info, msg, reason):
+
+    connection_t = connection_test()
+    tk.Label(register_screen, text=connection_t[1], bg="black", fg="red").pack()
+    try:
+        conn = validate_email(info) 
+    except:
+        pass
     error = True
     while error:
         if reason == "Invalid Username" and len(list(info)) < 2:
             error = False
             error_screen(reason, msg)
 
-        elif reason == "Invalid Email" and conn == False:
-            error = False
-            error_screen(reason, msg)
         elif reason == "Invalid Password" and len(list(info)) < 8:
             error = False
             error_screen(reason, msg)
+
+        elif reason == "Invalid Email" and conn == False:
+            error = False
+            error_screen(reason, msg)
+
         else:
             return True
 
@@ -82,6 +135,10 @@ def error_handler(info, msg, reason):
 
 def register_user(*args):
     
+    global user_info
+    global email_info
+    global pass_info
+
     user_info = username.get()
     email_info = email.get()
     pass_info = password.get()
@@ -105,10 +162,14 @@ def register_user(*args):
         data = db("code_assistant.db")
         
         result = data.insert(user_info, email_info, pass_info)
+
         if result:
             tk.messagebox.showerror("User Credential Exist", result)
             register_screen.destroy()
             return register()
+        else:
+            confirmation_email()
+            
 
             
         user_entry.delete(0, tk.END)
@@ -136,9 +197,11 @@ def register(*args):
     register_screen = tk.Toplevel(screen)
     register_screen.title(title)
     register_screen.resizable(False,False)
-    register_screen.geometry("320x250")
-    register_screen.attributes('-topmost', True)
+    register_screen.geometry("380x350")
+    
+    
     register_screen.configure(background="black",  pady=10)
+    register_screen.wm_attributes("-alpha", 1)
     
     
     
@@ -178,7 +241,13 @@ def login_authenti(*args):
             pass_entry.delete(00, tk.END)
             login_screen.destroy()
             screen.destroy()
-            ca.code_assistant()
+
+            data = db("code_assistant.db") # db is the database
+            data.insert_hist(user_info)
+            print(data.fetch_hist())
+
+            ca.code_assistant() #ca here refers to codeAssistant.py imported as ca
+            
             return
 
     else:
@@ -238,7 +307,7 @@ def login():
 
     tk.Label(login_screen, text="", bg="black", fg="green").pack()
 
-    tk.Button(login_screen, text = "Register", command = login_authenti, width = 10, bg="black", fg="green", activebackground="grey").pack()
+    tk.Button(login_screen, text = "Login", command = login_authenti, width = 10, bg="black", fg="green", activebackground="grey").pack()
 
 
 
@@ -269,6 +338,9 @@ def next_widget(event):
 
 
 def main():
+    import os
+
+    os.system('''/usr/bin/osascript -e 'tell app "Finder" to set frontmost of process "python" to true' ''')
     global screen
     screen = tk.Tk()
     screen.geometry("350x280")

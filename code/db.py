@@ -14,6 +14,12 @@ class Database:
                 password text,
                 date_and_time text
                 )""")
+        self.cur.execute(
+            """CREATE TABLE IF NOT EXISTS users_history (
+                history_id INTEGER PRIMARY KEY,
+                username text ,
+                date_time text
+                )""")
 
         self.conn.commit()
 
@@ -43,9 +49,27 @@ class Database:
     def __del__(self):
         self.conn.close()
 
+    #method for users_history table
+    def fetch_hist(self):
+        self.cur.execute("SELECT * FROM users_history")
+        rows = self.cur.fetchall()
+        return rows
+
+    def insert_hist(self, username):
+        try:
+            self.cur.execute("INSERT INTO users_history VALUES (NULL, ?, ?)",
+                         (username, datetime.datetime.now()))
+            self.conn.commit()
+            return
+        except Exception as e:
+            return e, "users_history_table"
+
+
+
+
 
 db = Database('code_assistant.db')
 
-# insert_result = db.insert("test", "test@pyton", "12345")
+# insert_result = db.insert_hist("test")
 
-print(db.fetch())
+# print(db.fetch_hist())
