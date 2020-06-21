@@ -7,11 +7,14 @@ import time
 import datetime
 
 from db import Database as db
+import codeAssistant as ca
 
 title = "CODING ASSISTANT"
 
 screen = None
+login_screen = None
 register_screen = None
+
 email_entry = None
 user_entry = None
 pass_entry = None
@@ -143,7 +146,7 @@ def register(*args):
     email = tk.StringVar()
     password = tk.StringVar()
 
-    tk.Label(register_screen, text = "Please enter details below", width = 300, bg="grey").pack()
+    tk.Label(register_screen, text = "Please enter details below", width=100, height= 2, bg =  "grey", font = ("Calibri", 14, "bold")).pack()
     tk.Label(register_screen, text="", bg="black", fg="green").pack()
     tk.Label(register_screen, text="Username", bg="black", fg="green").pack()
     tk.Label(register_screen, text="", bg="black", fg="green")
@@ -164,8 +167,80 @@ def register(*args):
     tk.Button(register_screen, text = "Register", command = register_user, width = 10, bg="black", fg="green", activebackground="grey").pack()
 
 
+def login_authenti(*args):
+    user_info = username.get()
+    pass_info = password.get()
+    data = db("code_assistant.db")
+    records = data.fetch()
+    for i in records:
+        if user_info and pass_info in i:
+            user_entry.delete(0, tk.END)
+            pass_entry.delete(00, tk.END)
+            login_screen.destroy()
+            screen.destroy()
+            ca.code_assistant()
+            return
+
+    else:
+        tk.messagebox.showinfo("Login Fail", f"Username or Password incorect\ncheck your connection and try again\n if the problem persist please contact tony@oceansofty.com")
+        login_screen.destroy()
+        login()
+
+
 def login():
-    print("logging in")
+    
+    global email_entry
+    global user_entry
+    global pass_entry
+    global login_screen
+    global email
+    global username 
+    global password 
+    global screen
+
+
+    try:
+        login_screen.destroy()
+    except:
+        pass
+
+    login_screen = tk.Toplevel(screen)
+    login_screen.title(title)
+    login_screen.resizable(False,False)
+    login_screen.geometry("300x250")
+    login_screen.attributes('-topmost', True)
+    login_screen.configure(background="black",  pady=10)
+
+    username = tk.StringVar()
+    email = tk.StringVar()
+    password = tk.StringVar()
+    
+    tk.Label(login_screen, text = "Please enter login details", width=100, height= 2, bg =  "grey", font = ("Calibri", 14, "bold")).pack()
+
+    tk.Label(login_screen, text="", bg="black", fg="green").pack()
+
+    tk.Label(login_screen, text="Username or Email", bg="black", fg="green").pack()
+    tk.Label(login_screen, text="", bg="black", fg="green")
+    user_entry = tk.Entry(login_screen, textvariable = username, width=35, highlightbackground="green", highlightthickness=2)
+    user_entry.pack()
+
+    # tk.Label(login_screen, text="Email", bg="black", fg="green").pack()
+    # tk.Label(login_screen, text="", bg="black", fg="green")
+    # email_entry = tk.Entry(login_screen, textvariable = email, width=35, highlightbackground="green", highlightthickness=2)
+    # email_entry.pack()
+
+    tk.Label(login_screen, text="", bg="black", fg="green")
+
+    tk.Label(login_screen, text="Password", bg="black", fg="green").pack()
+    tk.Label(login_screen, text="", bg="black", fg="green")
+    pass_entry = tk.Entry(login_screen, width=35, textvariable = password, show="*", highlightbackground="green", highlightthickness=2)
+    pass_entry.pack()
+
+    tk.Label(login_screen, text="", bg="black", fg="green").pack()
+
+    tk.Button(login_screen, text = "Register", command = login_authenti, width = 10, bg="black", fg="green", activebackground="grey").pack()
+
+
 
 def _click_cancel():
     
@@ -208,10 +283,10 @@ def main():
 
 
 
-    tk.Label(text = "CODE ASSISTANT Version 0.1", width=100, height= 2, bg =  "grey", font = ("Calibri", 14)).pack()
+    tk.Label(text = "CODE ASSISTANT Version 1.0", width=100, height= 2, bg =  "grey", font = ("Calibri", 14, "bold")).pack()
     tk.Label(text = "", bg="black").pack()
 
-    login_btn = tk.Button(text = "Login", width = 30, height= 2)
+    login_btn = tk.Button(text = "Login",command = login, width = 30, height= 2)
     login_btn.pack()
     login_btn
 

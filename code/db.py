@@ -46,6 +46,6 @@ class Database:
 
 db = Database('code_assistant.db')
 
-insert_result = db.insert("test", "test@pyton", "12345")
+# insert_result = db.insert("test", "test@pyton", "12345")
 
 print(db.fetch())
