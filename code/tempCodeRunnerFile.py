@@ -1,3 +1,4 @@
-import yagmail
-# yag = yagmail.SMTP(FROM, 'pass')
-# yag.send(TO, SUBJECT, TEXT)
+
+        home_label.config(bg=yellow)
+        top_frame.config(bg=yellow)
+        root.config(bg="gray17")
