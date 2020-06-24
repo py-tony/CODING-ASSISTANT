@@ -12,11 +12,28 @@ yellow = "#FFD43B"
 yellow2 ="#FFE873"
 blue = "#306998"
 
+def close_nav():
+    if btn_state == True:
+    # creat animated Navbar closing
+        for x in range(301):
+            nav_root.place(x=-x, y=0)
+            
+            top_frame.update()
+
+        #reseting widget colors:
+        
+        home_label.config(bg=yellow)
+        top_frame.config(bg=yellow)
+        root.config(bg="gray17")
+
+
 # setting switch function
 
 def switch():
     global btn_state
     global brand_label
+    global nav_root
+    global top_frame
     #navbar frame
     nav_root = tk.Frame(root, bg=yellow2, height=1000, width=300)
     nav_root.place(x=0, y=0)
@@ -27,6 +44,8 @@ def switch():
     # set y-coordinate of navbar widgets
 
     y = 80
+    
+    
 
     # option in the navbar
 
@@ -40,42 +59,26 @@ def switch():
         y+=40
 
     # close Navbar button
-    close_btn = tk.Button(nav_root, text="X", font="Bahnscchrist 16 bold", bg="gray17",  activebackground="white",fg="grey", bd=0, command=switch)
+    close_btn = tk.Button(nav_root, text="X", font="Bahnscchrist 16 bold", bg="gray17",  activebackground="white",fg="grey", bd=0, command=close_nav)
     close_btn.place(x=250, y=10)
-        
+
+         
+    home_label.config(bg=yellow)
+    top_frame.config(bg=yellow)
+    root.config(bg="gray17")
+
     
-    if btn_state == True:
-        # creat animated Navbar closing
-        for x in range(301):
-            nav_root.place(x=-x, y=0)
-            top_frame.update()
+    for x in range(-300,0):
+        nav_root.place(x=x, y=0)
+        nav_root.update()
 
-        #reseting widget colors:
-        
-        home_label.config(bg=yellow)
-        top_frame.config(bg=yellow)
-        root.config(bg="gray17")
+    #turning btn ON
+    btn_state = True
 
-        # turnig button off
-
-        btn_state = False
-
-    else:
-        # make root dim
-
-        
-        home_label.config(bg=yellow)
-        top_frame.config(bg=yellow)
-        root.config(bg="gray17")
-
-        
-        for x in range(-300,0):
-            nav_root.place(x=x, y=0)
-            nav_root.update()
-
-        #turning btn ON
-        btn_state = True
-
+def top_menu():
+    nav_menu = tk.Menu(root)
+    nav_menu.add_command(label="Files", command=None)
+    root.config(menu=nav_menu)
 
 def code_assistant():
     global yellow
@@ -96,6 +99,7 @@ def code_assistant():
     root.config(bg="gray17")
     root.wm_attributes("-alpha", 0.95)
     root.geometry("600x500")
+    top_menu()
 
     #setting swich case state for navbar
     btn_state = False
