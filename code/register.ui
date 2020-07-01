@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>378</width>
-    <height>508</height>
+    <height>558</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -38,7 +38,7 @@
     <string notr="true">background-color: rgb(121, 255, 97);</string>
    </property>
    <property name="text">
-    <string>Log in</string>
+    <string>Register</string>
    </property>
    <property name="checkable">
     <bool>true</bool>
@@ -61,13 +61,16 @@
 background-color: rgb(130, 130, 130);</string>
    </property>
    <property name="inputMethodHints">
-    <set>Qt::ImhHiddenText|Qt::ImhSensitiveData</set>
+    <set>Qt::ImhHiddenText|Qt::ImhNoAutoUppercase|Qt::ImhNoPredictiveText|Qt::ImhSensitiveData</set>
    </property>
    <property name="text">
     <string/>
    </property>
    <property name="maxLength">
     <number>50</number>
+   </property>
+   <property name="echoMode">
+    <enum>QLineEdit::Password</enum>
    </property>
    <property name="placeholderText">
     <string>Confirm Password*</string>
@@ -116,7 +119,7 @@ background-color: rgb(130, 130, 130);</string>
     <bool>false</bool>
    </property>
   </widget>
-  <widget class="QLabel" name="login_label">
+  <widget class="QLabel" name="signup_label">
    <property name="geometry">
     <rect>
      <x>140</x>
@@ -199,7 +202,7 @@ background-color: rgb(130, 130, 130);</string>
     <string>Username*</string>
    </property>
   </widget>
-  <widget class="QCommandLinkButton" name="register_link">
+  <widget class="QCommandLinkButton" name="contact_link">
    <property name="geometry">
     <rect>
      <x>230</x>
@@ -245,13 +248,16 @@ background-color: rgb(189, 189, 189);</string>
 background-color: rgb(130, 130, 130);</string>
    </property>
    <property name="inputMethodHints">
-    <set>Qt::ImhHiddenText|Qt::ImhSensitiveData</set>
+    <set>Qt::ImhHiddenText|Qt::ImhNoAutoUppercase|Qt::ImhNoPredictiveText|Qt::ImhSensitiveData</set>
    </property>
    <property name="text">
     <string/>
    </property>
    <property name="maxLength">
     <number>50</number>
+   </property>
+   <property name="echoMode">
+    <enum>QLineEdit::Password</enum>
    </property>
    <property name="placeholderText">
     <string>Password*</string>
