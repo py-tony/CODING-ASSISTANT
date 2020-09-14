@@ -11,7 +11,9 @@ class Database:
                 user_id INTEGER PRIMARY KEY,
                 username text unique,
                 email text unique,
+                phone text,
                 password text,
+                genger text,
                 date_and_time text
                 )""")
         self.cur.execute(
@@ -26,12 +28,13 @@ class Database:
     def fetch(self):
         self.cur.execute("SELECT * FROM users")
         rows = self.cur.fetchall()
+        self.conn.commit()
         return rows
 
-    def insert(self, username, email, password):
+    def insert(self, username, email,phone, password, gender):
         try:
-            self.cur.execute("INSERT INTO users VALUES (NULL, ?, ?, ?, ?)",
-                         (username, email, password, datetime.datetime.now()))
+            self.cur.execute("INSERT INTO users VALUES (NULL, ?, ?, ?, ?,?,?)",
+                         (username, email,phone, password, gender, datetime.datetime.now()))
             self.conn.commit()
             return
         except Exception as e:
@@ -46,13 +49,13 @@ class Database:
                          (username, email, password))
         self.conn.commit()
 
-    def __del__(self):
-        self.conn.close()
+    
 
     #method for users_history table
     def fetch_hist(self):
         self.cur.execute("SELECT * FROM users_history")
         rows = self.cur.fetchall()
+        self.conn.commit()
         return rows
 
     def insert_hist(self, username):
@@ -64,12 +67,15 @@ class Database:
         except Exception as e:
             return e, "users_history_table"
 
+    def __del__(self):
+        self.conn.close()
 
 
 
+if __name__ == "__main__":
 
-db = Database('code_assistant.db')
+    db = Database('code_assistant.db')
 
-# insert_result = db.insert_hist("test")
+    insert_result = db.insert_hist("sam")
 
-# print(db.fetch_hist())
+    print(db.fetch_hist())

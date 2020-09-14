@@ -12,7 +12,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_Frame(object):
     def setupUi(self, Frame):
-        Frame.setObjectName("Frame")
+        Frame.setObjectName("Registration")
         Frame.resize(378, 558)
         Frame.setStyleSheet("background-color: rgb(44, 44, 44);")
         self.register_btn = QtWidgets.QPushButton(Frame)

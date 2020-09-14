@@ -10,18 +10,18 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class Ui_Dialog(object):
-    def setupUi(self, Dialog):
-        Dialog.setObjectName("Dialog")
-        Dialog.resize(311, 431)
-        Dialog.setMaximumSize(QtCore.QSize(311, 431))
-        Dialog.setWindowOpacity(0.9)
-        Dialog.setStyleSheet("background-color: rgb(44, 44, 44);")
-        self.pushButton_2 = QtWidgets.QPushButton(Dialog)
-        self.pushButton_2.setGeometry(QtCore.QRect(0, 320, 311, 23))
-        self.pushButton_2.setStyleSheet("color: rgb(255, 255, 255);")
-        self.pushButton_2.setObjectName("pushButton_2")
-        self.ca_brand = QtWidgets.QLabel(Dialog)
+class Ui_Login_win(object):
+    def setupUi(self, Login_win):
+        Login_win.setObjectName("Login_win")
+        Login_win.resize(311, 431)
+        Login_win.setMaximumSize(QtCore.QSize(311, 431))
+        Login_win.setWindowOpacity(0.9)
+        Login_win.setStyleSheet("background-color: rgb(44, 44, 44);")
+        self.register_link = QtWidgets.QPushButton(Login_win)
+        self.register_link.setGeometry(QtCore.QRect(0, 320, 311, 23))
+        self.register_link.setStyleSheet("color: rgb(255, 255, 255);")
+        self.register_link.setObjectName("register_link")
+        self.ca_brand = QtWidgets.QLabel(Login_win)
         self.ca_brand.setEnabled(True)
         self.ca_brand.setGeometry(QtCore.QRect(70, 30, 191, 20))
         font = QtGui.QFont()
@@ -34,7 +34,7 @@ class Ui_Dialog(object):
         self.ca_brand.setAutoFillBackground(False)
         self.ca_brand.setStyleSheet("color: rgb(255, 255, 255);")
         self.ca_brand.setObjectName("ca_brand")
-        self.login_label = QtWidgets.QLabel(Dialog)
+        self.login_label = QtWidgets.QLabel(Login_win)
         self.login_label.setGeometry(QtCore.QRect(120, 70, 71, 20))
         font = QtGui.QFont()
         font.setPointSize(12)
@@ -43,7 +43,7 @@ class Ui_Dialog(object):
         self.login_label.setFont(font)
         self.login_label.setStyleSheet("color: rgb(255, 255, 255);")
         self.login_label.setObjectName("login_label")
-        self.name_field = QtWidgets.QLineEdit(Dialog)
+        self.name_field = QtWidgets.QLineEdit(Login_win)
         self.name_field.setGeometry(QtCore.QRect(10, 140, 291, 31))
         self.name_field.setAutoFillBackground(False)
         self.name_field.setStyleSheet("color: rgb(255, 255, 255);\n"
@@ -52,7 +52,7 @@ class Ui_Dialog(object):
         self.name_field.setText("")
         self.name_field.setMaxLength(20)
         self.name_field.setObjectName("name_field")
-        self.password_field = QtWidgets.QLineEdit(Dialog)
+        self.password_field = QtWidgets.QLineEdit(Login_win)
         self.password_field.setGeometry(QtCore.QRect(10, 190, 291, 31))
         self.password_field.setAutoFillBackground(False)
         self.password_field.setStyleSheet("color: rgb(255, 255, 255);\n"
@@ -63,7 +63,7 @@ class Ui_Dialog(object):
         self.password_field.setEchoMode(QtWidgets.QLineEdit.Password)
         self.password_field.setClearButtonEnabled(False)
         self.password_field.setObjectName("password_field")
-        self.register_btn = QtWidgets.QPushButton(Dialog)
+        self.register_btn = QtWidgets.QPushButton(Login_win)
         self.register_btn.setGeometry(QtCore.QRect(110, 250, 111, 31))
         font = QtGui.QFont()
         font.setBold(True)
@@ -74,25 +74,15 @@ class Ui_Dialog(object):
         self.register_btn.setCheckable(True)
         self.register_btn.setObjectName("register_btn")
 
-        self.retranslateUi(Dialog)
-        QtCore.QMetaObject.connectSlotsByName(Dialog)
+        self.retranslateUi(Login_win)
+        QtCore.QMetaObject.connectSlotsByName(Login_win)
 
-    def retranslateUi(self, Dialog):
+    def retranslateUi(self, Login_win):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
-        self.pushButton_2.setText(_translate("Dialog", "Don\'t have an account yet?  Register now"))
-        self.ca_brand.setText(_translate("Dialog", "CODE ASSISTANT"))
-        self.login_label.setText(_translate("Dialog", "Log In"))
-        self.name_field.setPlaceholderText(_translate("Dialog", "Username*"))
-        self.password_field.setPlaceholderText(_translate("Dialog", "Password*"))
-        self.register_btn.setText(_translate("Dialog", "Log In"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    Dialog = QtWidgets.QDialog()
-    ui = Ui_Dialog()
-    ui.setupUi(Dialog)
-    Dialog.show()
-    sys.exit(app.exec_())
+        Login_win.setWindowTitle(_translate("Login_win", "Dialog"))
+        self.register_link.setText(_translate("Login_win", "Don\'t have an account yet?  Register now"))
+        self.ca_brand.setText(_translate("Login_win", "CODE ASSISTANT"))
+        self.login_label.setText(_translate("Login_win", "Log In"))
+        self.name_field.setPlaceholderText(_translate("Login_win", "Username*"))
+        self.password_field.setPlaceholderText(_translate("Login_win", "Password*"))
+        self.register_btn.setText(_translate("Login_win", "Log In"))

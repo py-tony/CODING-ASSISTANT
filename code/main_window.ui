@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
+ <class>CODE_ASSISTANT</class>
+ <widget class="QMainWindow" name="CODE_ASSISTANT">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -14,7 +14,7 @@
    <string>MainWindow</string>
   </property>
   <property name="windowOpacity">
-   <double>0.900000000000000</double>
+   <double>0.950000000000000</double>
   </property>
   <property name="styleSheet">
    <string notr="true">color: rgb(255, 255, 255);
@@ -132,28 +132,35 @@ color: rgb(0, 0, 0);</string>
            <property name="frameShadow">
             <enum>QFrame::Raised</enum>
            </property>
-           <layout class="QHBoxLayout" name="horizontalLayout">
+           <layout class="QVBoxLayout" name="verticalLayout_7">
+            <item>
+             <widget class="QLabel" name="label_2">
+              <property name="text">
+               <string>Output</string>
+              </property>
+             </widget>
+            </item>
             <item>
              <widget class="QTextEdit" name="textEdit_result_display"/>
             </item>
            </layout>
           </widget>
-          <widget class="QFrame" name="frame_2_3">
-           <property name="frameShape">
-            <enum>QFrame::StyledPanel</enum>
+          <widget class="QSplitter" name="splitter_3">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
            </property>
-           <property name="frameShadow">
-            <enum>QFrame::Raised</enum>
-           </property>
-           <layout class="QHBoxLayout" name="horizontalLayout_2">
-            <item>
-             <widget class="QTextEdit" name="textEdit_media_player">
-              <property name="styleSheet">
-               <string notr="true">background-color: rgb(0, 0, 0);</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
+           <widget class="QFrame" name="frame_3_4">
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(0, 0, 0);</string>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_15"/>
+           </widget>
           </widget>
          </widget>
         </item>
@@ -222,6 +229,13 @@ color: rgb(0, 0, 0);</string>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_4">
             <item>
+             <widget class="QLabel" name="label_3">
+              <property name="text">
+               <string>Note Display</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QTextEdit" name="textEdit_note_display"/>
             </item>
            </layout>
@@ -234,6 +248,13 @@ color: rgb(0, 0, 0);</string>
             <enum>QFrame::Raised</enum>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_5">
+            <item>
+             <widget class="QLabel" name="label_4">
+              <property name="text">
+               <string>List of Notes</string>
+              </property>
+             </widget>
+            </item>
             <item>
              <widget class="QTextEdit" name="textEdit_list_note"/>
             </item>

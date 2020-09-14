@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Dialog</class>
- <widget class="QDialog" name="Dialog">
+ <class>Login_win</class>
+ <widget class="QDialog" name="Login_win">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -25,7 +25,7 @@
   <property name="styleSheet">
    <string notr="true">background-color: rgb(44, 44, 44);</string>
   </property>
-  <widget class="QPushButton" name="pushButton_2">
+  <widget class="QPushButton" name="register_link">
    <property name="geometry">
     <rect>
      <x>0</x>
