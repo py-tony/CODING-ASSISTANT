@@ -1,3 +1,5 @@
+#this is the necessary files and modules that we will use this file 
+
 import tkinter as tk
 from urllib.request import urlopen
 from validate_email import validate_email
